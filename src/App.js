@@ -8,12 +8,14 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Offers from "./pages/Offers";
 import PageNotFound from "./pages/PageNotFound";
+import Header from "./components/Header";
 
 function App() {
   return (
     <Router>
+    <Header />
       <Routes>
-        <Route index element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
