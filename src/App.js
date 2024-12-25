@@ -1,10 +1,27 @@
-import './App.css';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import Offers from "./pages/Offers";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
-    <div className="text-2xl bg-red-400 App">
-      Welcome to realtor clone
-    </div>
+    <Router>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </Router>
   );
 }
 
