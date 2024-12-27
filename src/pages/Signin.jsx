@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import {FaEyeSlash, FaEye } from 'react-icons/fa';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import OAuth from '../components/OAuth';
+import { supabase } from '../supabase.config';
+import { toast } from 'react-toastify';
 
 
 const Signin = () => {
@@ -11,6 +13,8 @@ const Signin = () => {
     password: "",
   })
 
+  const navigate = useNavigate();
+
   const {email, password} = formData;
 
   const onChange = (e) => {
@@ -19,6 +23,26 @@ const Signin = () => {
       [e.target.id]: e.target.value,
     }))
   }
+
+  const signInWithEmail = async (e) => {
+    e.preventDefault();
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: email,
+    password: password,
+  })
+
+  if (error) {
+    console.error("Sign-in error:", error);
+    toast.error("Something went wrong with the Sign in");
+    return null;
+  } else {
+    console.log("Sign-in successful:", data);
+    toast.success("Sign in is successful");
+    navigate("/");
+    return data;
+  }
+}
   return (
     <section>
       <h1 className="text-3xl text-center mt-6 font-bold">Sign In </h1>
@@ -27,7 +51,7 @@ const Signin = () => {
           <img className="rounded-2xl w-full my-6" src="https://plus.unsplash.com/premium_photo-1726863173328-9437d391141a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8a2V5fGVufDB8fDB8fHww" alt="signin key" />
         </div>
         <div className="md:w-[67%] lg:w-[40%] mb-12 md:mb-6 lg:ml-20">
-          <form action=""  >
+          <form onSubmit={signInWithEmail}  >
             <input className="w-full mb-6 px-4 py-2 text-xl text-gray-700 bg-white border-gray-300 rounded transition ease-in-out" type="text" id="email" value={email} onChange={onChange} placeholder="Email Address"  />
             
             <div className='relative mb-6'>
